@@ -5,3 +5,12 @@
 .bookDetails {
     padding-bottom: 10px;
 }
+
+input {
+    display: block;
+    margin: 10px;
+}
+
+label {
+    padding: 10px;
+}
