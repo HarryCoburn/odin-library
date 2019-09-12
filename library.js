@@ -14,11 +14,12 @@ function Book(title, author, pageCount, readYet) {
 }
 
 function addBookToLibrary() {
-    console.log("Got here");
-    let title = "foo"
-    let author = "bar"
-    let pageCount = "baz"
-    let readYet = "false"
+    let bookForm = document.getElementById('bookForm');
+    console.log(bookForm.elements);
+    let title = bookForm["Title"].value;
+    let author = bookForm["Author"].value;
+    let pageCount = bookForm["Page Count"].value;
+    let readYet = bookForm["Read Yet?"].value;
     myLibrary.push(new Book(title, author, pageCount, readYet));
     render(myLibrary);
 }
@@ -27,6 +28,7 @@ function addBookToLibrary() {
 function render(myLibrary) {
     let bookList = document.querySelector('#bookList');
     destroyOldList(bookList);
+    // Create new book list
     myLibrary.forEach(book => {
         let newBook = document.createElement('div');
         newBook.classList.add("bookEntry");
@@ -53,13 +55,11 @@ function destroyOldList(bookList) {
     }
 }
 
-bookFormButton = document.querySelector('button[id="newBook"]');
-bookFormButton.addEventListener('click', openBookForm);
-
 function openBookForm() {
     bookFormButton.style.visibility = "hidden";
-    let formDiv = document.querySelector('div[id="addBookForm"');    
-    let newBookForm = document.createElement('form');    
+    let formDiv = document.querySelector('div[id="addBookForm"]');    
+    let newBookForm = document.createElement('form');
+    newBookForm.id = "bookForm";    
     // Populate form with fields
     let fieldNames = ["Title", "Author", "Page Count", "Read Yet?"]
     fieldNames.forEach(field => {
@@ -74,12 +74,26 @@ function openBookForm() {
         newBookForm.appendChild(newLabel);
         newBookForm.appendChild(newField);
     })
-    let submitButton = document.createElement('button');    
-    submitButton.textContent = "Add Book"
+    let submitButton = document.createElement('button');        
+    submitButton.textContent = "Add Book"    
     submitButton.addEventListener("click", addBookToLibrary);
-        
+
+    let cancelButton = document.createElement('button');
+    cancelButton.textContent = "Close Form"
+    cancelButton.addEventListener("click", function() {closeNewBookForm(newBookForm)});
+    
+    newBookForm.appendChild(submitButton);
+    newBookForm.appendChild(cancelButton);
     formDiv.appendChild(newBookForm);
-    formDiv.appendChild(submitButton);
+    
+}
+
+function closeNewBookForm(form) {
+    form.remove()
+    bookFormButton.style.visibility = "visible";
+
 }
 
 render(myLibrary)
+bookFormButton = document.querySelector('button[id="newBook"]');
+bookFormButton.addEventListener('click', openBookForm);
