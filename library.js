@@ -15,10 +15,11 @@ function Book(title, author, pageCount, readYet) {
 
 function addBookToLibrary() {    
     let bookForm = document.getElementById('bookForm');    
+    console.table(bookForm)
     let title = bookForm["Title"].value;
     let author = bookForm["Author"].value;
     let pageCount = bookForm["Page Count"].value;
-    let readYet = bookForm["Read Yet?"].value;
+    let readYet = document.querySelector('input[name="readYet"]:checked').value;
     myLibrary.push(new Book(title, author, pageCount, readYet));
     render(myLibrary);
 }
@@ -62,16 +63,18 @@ function openBookForm() {
     // Populate form with fields
     let fieldNames = ["Title", "Author", "Page Count", "Read Yet?"]
     fieldNames.forEach(field => {
-        let newField = document.createElement('input');
-        newField.id = field;
+        if (field === "Read Yet?") {
+           readYetRadio(newBookForm, field);            
+        } else {
         let newLabel = document.createElement('label');
-        newLabel.for= field;
-        newLabel.textContent = field + ": ";
+        let newField = document.createElement('input');
+        newField.id = field;       
         newField.type = "text";
         newField.name = field;
         newField.id = field;
         newBookForm.appendChild(newLabel);
         newBookForm.appendChild(newField);
+        }
     })
     let submitButton = document.createElement('button');        
     submitButton.textContent = "Add Book"    
@@ -85,6 +88,23 @@ function openBookForm() {
     formDiv.appendChild(submitButton);
     formDiv.appendChild(cancelButton);
     
+}
+
+function readYetRadio(bookForm, field) {
+    let radioLabel = document.createElement('label');
+    let yesLabel = document.createElement('label');
+    let noLabel = document.createElement('label');
+    radioLabel.for= field;
+    yesLabel.for = "yes"
+    noLabel.for = "No"
+    radioLabel.textContent = field + ": ";    
+    yesLabel.textContent = "Yes"   
+    noLabel.textContent = "No"            
+    yesLabel.innerHTML = `Yes<input type="radio" id="yes" name="readYet" value ="yes" />`
+    noLabel.innerHTML = `No<input type="radio" id="no" name="readYet" value ="no" checked/>`   
+    bookForm.appendChild(radioLabel);
+    bookForm.appendChild(yesLabel);
+    bookForm.appendChild(noLabel);
 }
 
 function closeNewBookForm(form) {
