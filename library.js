@@ -1,7 +1,4 @@
-let myLibrary = [
-    { title: 'The Hobbit', author: "J.R.R. Tolkien", pageCount: 264, readYet: true },
-    { title: 'The Fellowship of the Ring' }
-];
+// Book constructor
 
 function Book(title, author, pageCount, readYet) {
     this.title = title
@@ -12,6 +9,13 @@ function Book(title, author, pageCount, readYet) {
         return `${title} by ${author}, ${pageCount} pages, ${readYet ? "already read" : "not read yet"}`
     }
 }
+
+// Core library data object
+
+let myLibrary = [
+    { title: 'The Hobbit', author: "J.R.R. Tolkien", pageCount: 264, readYet: "Yes" },
+    { title: 'The Fellowship of the Ring', author: "J.R.R. Tolkien", pageCount: 264, readYet: "Yes" },
+];
 
 function addBookToLibrary() {    
     let bookForm = document.getElementById('bookForm');    
@@ -24,6 +28,7 @@ function addBookToLibrary() {
     render(myLibrary);
 }
 
+// Rendering functions
 
 function render(myLibrary) {
     let bookList = document.querySelector('#bookList');
@@ -33,15 +38,12 @@ function render(myLibrary) {
         let newBook = document.createElement('div');
         newBook.classList.add("bookEntry");
         let bookDetails = document.createElement('div');
-        bookDetails.classList.add("bookDetails");
-        let title = document.createElement('h2');
-
-        title.textContent = book.title;
+        bookDetails.classList.add("bookDetails");        
         bookDetails.innerHTML = `
+        <h2>${book.title}</h2>
         Author: ${book.author}<br>
         Page Count: ${book.pageCount}<br>
-        Read yet?: ${book.readYet}`
-        newBook.appendChild(title)
+        Read yet?: ${book.readYet}`        
         newBook.appendChild(bookDetails)
         bookList.appendChild(newBook);
     });
@@ -55,6 +57,8 @@ function destroyOldList(bookList) {
     }
 }
 
+// Adding a book
+
 function openBookForm() {
     bookFormButton.style.visibility = "hidden";
     let formDiv = document.querySelector('div[id="addBookForm"]');    
@@ -64,14 +68,16 @@ function openBookForm() {
     let fieldNames = ["Title", "Author", "Page Count", "Read Yet?"]
     fieldNames.forEach(field => {
         if (field === "Read Yet?") {
-           readYetRadio(newBookForm, field);            
+           buildReadYetRadio(newBookForm, field);            
         } else {
-        let newLabel = document.createElement('label');
-        let newField = document.createElement('input');
+        let newField = document.createElement('input');        
         newField.id = field;       
         newField.type = "text";
-        newField.name = field;
-        newField.id = field;
+        newField.name = field;        
+        let newLabel = document.createElement('label');        
+        newLabel.for = field;
+        newLabel.textContent = field + ": "
+        console.log(newLabel);
         newBookForm.appendChild(newLabel);
         newBookForm.appendChild(newField);
         }
@@ -90,7 +96,7 @@ function openBookForm() {
     
 }
 
-function readYetRadio(bookForm, field) {
+function buildReadYetRadio(bookForm, field) {
     let radioLabel = document.createElement('label');
     let yesLabel = document.createElement('label');
     let noLabel = document.createElement('label');
@@ -100,8 +106,8 @@ function readYetRadio(bookForm, field) {
     radioLabel.textContent = field + ": ";    
     yesLabel.textContent = "Yes"   
     noLabel.textContent = "No"            
-    yesLabel.innerHTML = `Yes<input type="radio" id="yes" name="readYet" value ="yes" />`
-    noLabel.innerHTML = `No<input type="radio" id="no" name="readYet" value ="no" checked/>`   
+    yesLabel.innerHTML = `Yes<input type="radio" id="yes" name="readYet" value ="Yes" />`
+    noLabel.innerHTML = `No<input type="radio" id="no" name="readYet" value ="No" checked/>`   
     bookForm.appendChild(radioLabel);
     bookForm.appendChild(yesLabel);
     bookForm.appendChild(noLabel);
@@ -112,6 +118,8 @@ function closeNewBookForm(form) {
     bookFormButton.style.visibility = "visible";
 
 }
+
+// Start program
 
 render(myLibrary)
 bookFormButton = document.querySelector('button[id="newBook"]');
