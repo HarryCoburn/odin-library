@@ -12,5 +12,11 @@ input {
 }
 
 label {
+    display: inline-block;
     padding: 10px;
+}
+
+button {
+    margin-left: 10px;
+    margin-right: 10px;
 }
