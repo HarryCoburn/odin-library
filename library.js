@@ -18,8 +18,7 @@ let myLibrary = [
 ];
 
 function addBookToLibrary() {    
-    let bookForm = document.getElementById('bookForm');    
-    console.table(bookForm)
+    let bookForm = document.getElementById('bookForm');        
     let title = bookForm["Title"].value;
     let author = bookForm["Author"].value;
     let pageCount = bookForm["Page Count"].value;
@@ -76,15 +75,15 @@ function openBookForm() {
         newField.name = field;        
         let newLabel = document.createElement('label');        
         newLabel.for = field;
-        newLabel.textContent = field + ": "
-        console.log(newLabel);
+        newLabel.textContent = field + ": "        
         newBookForm.appendChild(newLabel);
         newBookForm.appendChild(newField);
         }
     })
+
     let submitButton = document.createElement('button');        
     submitButton.textContent = "Add Book"    
-    submitButton.addEventListener("click", addBookToLibrary);
+    submitButton.addEventListener("click", validateNewBookForm);
 
     let cancelButton = document.createElement('button');
     cancelButton.textContent = "Close Form"
@@ -94,6 +93,16 @@ function openBookForm() {
     formDiv.appendChild(submitButton);
     formDiv.appendChild(cancelButton);
     
+}
+
+function validateNewBookForm() {
+    let pageCount = document.forms["bookForm"]["Page Count"].value;
+    if (/\D/.test(pageCount) === false) {
+        addBookToLibrary()
+    }
+    else {
+        alert("Page count field can only contain numbers!");
+    }
 }
 
 function buildReadYetRadio(bookForm, field) {
