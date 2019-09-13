@@ -4,10 +4,7 @@ function Book(title, author, pageCount, readYet) {
     this.title = title
     this.author = author
     this.pageCount = pageCount
-    this.readYet = readYet
-    this.info = function () {
-        return `${title} by ${author}, ${pageCount} pages, ${readYet ? "already read" : "not read yet"}`
-    }
+    this.readYet = readYet    
 }
 
 // Core library data object
@@ -42,7 +39,7 @@ function render(myLibrary) {
         <h2>${book.title}</h2>
         Author: ${book.author}<br>
         Page Count: ${book.pageCount}<br>
-        Read yet?: ${book.readYet}`        
+        Read yet?: ${book.readYet}<button>Read Book?</button><button id="removeBook">Remove Book</button>`
         newBook.appendChild(bookDetails)
         bookList.appendChild(newBook);
     });
