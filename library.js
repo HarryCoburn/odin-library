@@ -13,9 +13,8 @@ function Book(title, author, pageCount, readYet) {
     }
 }
 
-function addBookToLibrary() {
-    let bookForm = document.getElementById('bookForm');
-    console.log(bookForm.elements);
+function addBookToLibrary() {    
+    let bookForm = document.getElementById('bookForm');    
     let title = bookForm["Title"].value;
     let author = bookForm["Author"].value;
     let pageCount = bookForm["Page Count"].value;
@@ -80,16 +79,16 @@ function openBookForm() {
 
     let cancelButton = document.createElement('button');
     cancelButton.textContent = "Close Form"
-    cancelButton.addEventListener("click", function() {closeNewBookForm(newBookForm)});
-    
-    newBookForm.appendChild(submitButton);
-    newBookForm.appendChild(cancelButton);
+    cancelButton.addEventListener("click", function() {closeNewBookForm([newBookForm, submitButton, cancelButton])});
+        
     formDiv.appendChild(newBookForm);
+    formDiv.appendChild(submitButton);
+    formDiv.appendChild(cancelButton);
     
 }
 
 function closeNewBookForm(form) {
-    form.remove()
+    form.forEach(item => item.remove())
     bookFormButton.style.visibility = "visible";
 
 }
