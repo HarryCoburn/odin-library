@@ -4,7 +4,14 @@ function Book(title, author, pageCount, readYet) {
     this.title = title
     this.author = author
     this.pageCount = pageCount
-    this.readYet = readYet    
+    this.readYet = readYet
+    this.readToggle = function(read) {
+        if (read === "Yes") {
+            this.readYet = "No"
+        } else {
+            this.readYet = "Yes"
+        }
+    }
 }
 
 // Core library data object
@@ -24,24 +31,52 @@ function addBookToLibrary() {
     render(myLibrary);
 }
 
+function toggleRead(index) {        
+    if (myLibrary[index].readYet === "Yes") 
+    {
+        myLibrary[index].readYet = "No"
+    } else { 
+        myLibrary[index].readYet = "Yes" 
+    }    
+    render(myLibrary);    
+}
+
+function removeBook(index) {
+
+}
+
 // Rendering functions
 
 function render(myLibrary) {
     let bookList = document.querySelector('#bookList');
     destroyOldList(bookList);
     // Create new book list
-    myLibrary.forEach(book => {
+    myLibrary.forEach((book, index) => {
         let newBook = document.createElement('div');
         newBook.classList.add("bookEntry");
+        //newBook.setAttribute("data-lib-index", index);
         let bookDetails = document.createElement('div');
         bookDetails.classList.add("bookDetails");        
         bookDetails.innerHTML = `
         <h2>${book.title}</h2>
         Author: ${book.author}<br>
         Page Count: ${book.pageCount}<br>
-        Read yet?: ${book.readYet}<button>Read Book?</button><button id="removeBook">Remove Book</button>`
+        Read yet?: ${book.readYet}`
+
+        let toggleButton = document.createElement('button');
+        toggleButton.id = "readToggle";
+        toggleButton.textContent = "Toggle Read Status";
+        toggleButton.addEventListener('click', function() {toggleRead(index)});
+
+        let removeButton = document.createElement('button');
+        removeButton.id = "removeBook";        
+        removeButton.textContent = "Remove Book";
+        removeButton.addEventListener('click', function() {removeBook(index)});
+
+        bookDetails.appendChild(toggleButton);
+        bookDetails.appendChild(removeButton);
         newBook.appendChild(bookDetails)
-        bookList.appendChild(newBook);
+        bookList.appendChild(newBook);        
     });
 }
 
