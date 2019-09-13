@@ -95,14 +95,20 @@ function openBookForm() {
     
 }
 
-function validateNewBookForm() {
+function validateNewBookForm() {    
+    let title = document.forms["bookForm"]["Title"].value;
+    let author = document.forms["bookForm"]["Author"].value;
     let pageCount = document.forms["bookForm"]["Page Count"].value;
-    if (/\D/.test(pageCount) === false) {
-        addBookToLibrary()
-    }
-    else {
+    if (/\D/.test(pageCount) === true) {
         alert("Page count field can only contain numbers!");
+        return;
     }
+    if (title === "" || author === "" || pageCount === "") {
+        console.log("Got here")
+        alert("All fields must be filled out before submission.");
+        return;
+    }
+    addBookToLibrary();
 }
 
 function buildReadYetRadio(bookForm, field) {
