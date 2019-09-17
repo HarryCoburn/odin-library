@@ -1,11 +1,13 @@
-// Book constructor
+// Book class
+class Book {
+    constructor(title, author, pageCount, readYet) {
+        this.title = title
+        this.author = author
+        this.pageCount = pageCount
+        this.readYet = readYet
+    }
 
-function Book(title, author, pageCount, readYet) {
-    this.title = title
-    this.author = author
-    this.pageCount = pageCount
-    this.readYet = readYet
-    this.readToggle = function(read) {
+    readToggle(read) {
         if (read === "Yes") {
             this.readYet = "No"
         } else {
@@ -13,6 +15,7 @@ function Book(title, author, pageCount, readYet) {
         }
     }
 }
+
 
 // Core library data object
 
@@ -27,7 +30,7 @@ function addBookToLibrary() {
     let author = bookForm["Author"].value;
     let pageCount = bookForm["Page Count"].value;
     let readYet = document.querySelector('input[name="readYet"]:checked').value;
-    myLibrary.push(new Book(title, author, pageCount, readYet));
+    myLibrary.unshift(new Book(title, author, pageCount, readYet));
     render(myLibrary);
 }
 
@@ -42,7 +45,9 @@ function toggleRead(index) {
 }
 
 function removeBook(index) {
-
+    delete myLibrary[index];
+    myLibrary = myLibrary.filter(() => {return true});
+    render(myLibrary);
 }
 
 // Rendering functions
